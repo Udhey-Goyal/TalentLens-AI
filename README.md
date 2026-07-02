@@ -1,60 +1,126 @@
-# 🤖 Redrob AI Candidate Ranker
+# 🚀 TalentLens-AI
 
-An AI-powered candidate ranking system that ranks job applicants based on semantic similarity, feature engineering, and optional LLM re-ranking.
+An AI-powered candidate ranking platform that intelligently ranks **100,000 candidate profiles** for a given job description using semantic embeddings, structured scoring, behavioral analysis, honeypot detection, and optional LLM re-ranking.
 
-## 🚀 Features
-
-- Semantic candidate matching using Sentence Transformers
-- Fast embedding caching for large datasets
-- Rule-based feature scoring
-- Optional Claude LLM re-ranking
-- Streamlit web interface
-- Handles datasets with up to 100,000 candidates efficiently
+Unlike traditional keyword matching, Redrob AI Ranker evaluates **career history, skills, behavioral signals, and semantic similarity** to identify the most suitable candidates.
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Features
 
-- Python 3.x
-- Sentence Transformers (all-MiniLM-L6-v2)
-- Anthropic Claude API (Optional)
+- 🔍 Semantic candidate retrieval using Sentence Transformers
+- 📊 Structured scoring based on skills and career history
+- 🧠 Behavioral scoring using recruiter engagement signals
+- 🚨 Honeypot candidate detection
+- 🤖 Optional Claude LLM re-ranking
+- ⚡ Embedding caching for fast repeated inference
+- 🌐 Modern React + FastAPI web interface
+- 📈 Interactive ranking visualization
+- 📄 CSV export of ranked candidates
+
+---
+
+# 🏗️ Architecture
+
+```
+                   React Frontend
+                         │
+                         ▼
+                  FastAPI Backend
+                         │
+                         ▼
+                Candidate Ranking Pipeline
+                         │
+      ┌──────────────────┼──────────────────┐
+      ▼                  ▼                  ▼
+Semantic Search   Structured Score   Behavioral Score
+      │                  │                  │
+      └──────────────┬───┴──────────────────┘
+                     ▼
+            Honeypot Detection
+                     ▼
+          Claude LLM Re-ranking (Optional)
+                     ▼
+              Final Candidate Ranking
+```
+
+---
+
+# 🛠️ Tech Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- CSS
+
+### Backend
+
+- Python
+- FastAPI
+- Uvicorn
+
+### AI / ML
+
+- Sentence Transformers
+- all-MiniLM-L6-v2
 - NumPy
-- Streamlit
+- Anthropic Claude API (Optional)
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```
 redrob-ranker/
 │
-├── app.py
-├── rank.py
-├── requirements.txt
-├── sample_candidates.json
-├── validate_submission.py
-│
-├── pipeline/
+├── frontend/              # React Frontend
+├── pipeline/              # Candidate ranking pipeline
 │   ├── encoder.py
-│   ├── loader.py
-│   ├── behavioral.py
 │   ├── feature_scorer.py
+│   ├── behavioral.py
 │   ├── honeypot.py
-│   ├── jd_parser.py
-│   └── llm_reranker.py
+│   ├── llm_reranker.py
+│   └── loader.py
 │
-└── .gitignore
+├── server.py              # FastAPI backend
+├── rank.py                # CLI ranking script
+├── app.py                 # Streamlit prototype
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Installation
 
 Clone the repository
 
 ```bash
-git clone https://github.com/Udhey-Goyal/Redrob-ranker.git
-cd Redrob-ranker
+git clone https://github.com/Udhey-Goyal/redrob-ai-ranker.git
+
+cd redrob-ai-ranker
+```
+
+Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+Activate it
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Linux / Mac
+
+```bash
+source venv/bin/activate
 ```
 
 Install dependencies
@@ -65,88 +131,99 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Running Without LLM
+# ▶️ Running the Backend
 
 ```bash
-python rank.py --candidates sample_candidates.json --out submission.csv --no-llm
+uvicorn server:app --reload --port 8000
 ```
 
-This mode uses:
+Backend API
 
-- Sentence Transformer embeddings
-- Feature engineering
-- Behavioral scoring
-
-No API key is required.
+```
+http://127.0.0.1:8000
+```
 
 ---
 
-## 🤖 Running With Claude LLM
-
-Set your Anthropic API key.
-
-Windows PowerShell
-
-```powershell
-$env:ANTHROPIC_API_KEY="YOUR_API_KEY"
-```
-
-Linux/macOS
+# ▶️ Running the Frontend
 
 ```bash
-export ANTHROPIC_API_KEY="YOUR_API_KEY"
+cd frontend
+
+npm install
+
+npm run dev
 ```
 
-Run
+Frontend
+
+```
+http://localhost:5173
+```
+
+---
+
+# 🖥️ CLI Ranking
+
+Rank candidates without the frontend
 
 ```bash
-python rank.py --candidates sample_candidates.json --out submission.csv
-```
-
-The top-ranked candidates are re-ranked using Claude.
-
----
-
-## 🧠 Pipeline
-
-```
-Candidates
-      │
-      ▼
-Candidate Loader
-      │
-      ▼
-Sentence Transformer Embeddings
-      │
-      ▼
-Cosine Similarity Ranking
-      │
-      ▼
-Feature Scoring
-      │
-      ▼
-(Optional) Claude LLM Re-ranking
-      │
-      ▼
-Final Ranked Candidates
+python rank.py \
+--candidates candidates.jsonl \
+--out submission.csv \
+--no-llm
 ```
 
 ---
 
-## 📊 Performance
+# 🤖 Claude LLM Support
 
-- Supports datasets with **100,000+ candidates**
-- Cached embeddings reduce repeated runtime from several minutes to a few seconds
-- Batch embedding generation
-- Optional LLM stage for higher-quality ranking
+Claude re-ranking is optional.
+
+To enable it, configure your Anthropic API Key:
+
+```bash
+ANTHROPIC_API_KEY=YOUR_API_KEY
+```
+
+Disable LLM
+
+```bash
+python rank.py --no-llm
+```
 
 ---
 
-## 📌 Notes
+# 📊 Performance
 
-The large candidate dataset (`candidates.jsonl`) is intentionally **not included** because it exceeds GitHub's file size limits.
+- Dataset Size: **100,000 Candidates**
+- Embedding Model: **all-MiniLM-L6-v2**
+- Cached Embeddings Supported
+- CPU-only Execution
+- Repeated ranking completes in approximately **7 seconds** (with cached embeddings)
 
-Use the provided sample dataset or your own candidate dataset.
+---
+
+# 📁 Dataset
+
+The original **100k candidate dataset** is not included because it exceeds GitHub's file size limit.
+
+For demonstration purposes, use:
+
+```
+sample_candidates.json
+```
+
+---
+
+# 🚀 Future Improvements
+
+- Resume PDF Upload
+- Explainable AI candidate reasoning
+- Multi-job ranking
+- Recruiter dashboard
+- Candidate comparison view
+- Authentication & database integration
 
 ---
 
