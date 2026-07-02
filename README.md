@@ -1,68 +1,76 @@
-# 🚀 TalentLens-AI
+# 🚀 TalentLens AI
+### Intelligent AI Candidate Ranking Platform
 
-An AI-powered candidate ranking platform that intelligently ranks **100,000 candidate profiles** for a given job description using semantic embeddings, structured scoring, behavioral analysis, honeypot detection, and optional LLM re-ranking.
+TalentLens AI is an intelligent candidate ranking platform that ranks **100,000+ candidate profiles** for a given job description using semantic search, structured feature scoring, behavioral analysis, honeypot detection, and optional Claude AI re-ranking. Instead of relying on simple keyword matching, TalentLens AI evaluates a candidate's actual career trajectory, technical skills, work experience, and behavioral signals to identify the best fit for a role.
 
-Unlike traditional keyword matching, Redrob AI Ranker evaluates **career history, skills, behavioral signals, and semantic similarity** to identify the most suitable candidates.
+---
+
+## 📸 Application Preview
+
+### Dashboard
+
+![Dashboard](assets/dashboard.png)
+
+### Ranking Results
+
+![Ranking Results](assets/ranking.png)
 
 ---
 
 ## ✨ Features
 
 - 🔍 Semantic candidate retrieval using Sentence Transformers
-- 📊 Structured scoring based on skills and career history
-- 🧠 Behavioral scoring using recruiter engagement signals
-- 🚨 Honeypot candidate detection
-- 🤖 Optional Claude LLM re-ranking
-- ⚡ Embedding caching for fast repeated inference
-- 🌐 Modern React + FastAPI web interface
-- 📈 Interactive ranking visualization
+- 📊 Structured scoring based on skills, experience, and career history
+- 🧠 Behavioral scoring using recruiter-inspired heuristics
+- 🚨 Honeypot candidate detection to filter suspicious profiles
+- 🤖 Optional Claude AI re-ranking for improved ranking quality
+- ⚡ Embedding caching for ultra-fast repeated inference
+- 🌐 Modern React + FastAPI web application
+- 📈 Interactive ranking visualizations and analytics
 - 📄 CSV export of ranked candidates
 
 ---
 
-# 🏗️ Architecture
+## 🏗️ Architecture
 
-```
-                   React Frontend
-                         │
-                         ▼
-                  FastAPI Backend
-                         │
-                         ▼
-                Candidate Ranking Pipeline
-                         │
-      ┌──────────────────┼──────────────────┐
-      ▼                  ▼                  ▼
-Semantic Search   Structured Score   Behavioral Score
-      │                  │                  │
-      └──────────────┬───┴──────────────────┘
+```text
+                    React Frontend
+                          │
+                          ▼
+                   FastAPI Backend
+                          │
+                          ▼
+                 Candidate Ranking Pipeline
+                          │
+      ┌───────────────────┼───────────────────┐
+      ▼                   ▼                   ▼
+ Semantic Search    Structured Score    Behavioral Score
+      │                   │                   │
+      └──────────────┬────┴───────────────────┘
                      ▼
-            Honeypot Detection
+             Honeypot Detection
                      ▼
-          Claude LLM Re-ranking (Optional)
+        Claude AI Re-ranking (Optional)
                      ▼
-              Final Candidate Ranking
+            Final Candidate Ranking
 ```
 
 ---
 
-# 🛠️ Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
-
 - React
 - TypeScript
 - Vite
 - CSS
 
 ### Backend
-
 - Python
 - FastAPI
 - Uvicorn
 
-### AI / ML
-
+### AI / Machine Learning
 - Sentence Transformers
 - all-MiniLM-L6-v2
 - NumPy
@@ -70,60 +78,61 @@ Semantic Search   Structured Score   Behavioral Score
 
 ---
 
-# 📂 Project Structure
+## 📂 Repository Structure
 
-```
-redrob-ranker/
+```text
+redrob-ai-ranker/
 │
-├── frontend/              # React Frontend
-├── pipeline/              # Candidate ranking pipeline
+├── assets/                 # README screenshots
+├── frontend/               # React frontend
+├── pipeline/               # AI ranking pipeline
+│   ├── behavioral.py
 │   ├── encoder.py
 │   ├── feature_scorer.py
-│   ├── behavioral.py
 │   ├── honeypot.py
+│   ├── jd_parser.py
 │   ├── llm_reranker.py
 │   └── loader.py
 │
-├── server.py              # FastAPI backend
-├── rank.py                # CLI ranking script
-├── app.py                 # Streamlit prototype
+├── server.py               # FastAPI backend
+├── rank.py                 # CLI ranking pipeline
+├── app.py                  # Streamlit prototype
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-# ⚙️ Installation
+## ⚙️ Installation
 
-Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/Udhey-Goyal/redrob-ai-ranker.git
-
 cd redrob-ai-ranker
 ```
 
-Create a virtual environment
+Create a virtual environment:
 
 ```bash
 python -m venv venv
 ```
 
-Activate it
+Activate it:
 
-Windows
+**Windows**
 
 ```bash
 venv\Scripts\activate
 ```
 
-Linux / Mac
+**Linux / macOS**
 
 ```bash
 source venv/bin/activate
 ```
 
-Install dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -131,13 +140,13 @@ pip install -r requirements.txt
 
 ---
 
-# ▶️ Running the Backend
+## ▶️ Running the Backend
 
 ```bash
 uvicorn server:app --reload --port 8000
 ```
 
-Backend API
+Backend API:
 
 ```
 http://127.0.0.1:8000
@@ -145,7 +154,7 @@ http://127.0.0.1:8000
 
 ---
 
-# ▶️ Running the Frontend
+## ▶️ Running the Frontend
 
 ```bash
 cd frontend
@@ -155,7 +164,7 @@ npm install
 npm run dev
 ```
 
-Frontend
+Frontend:
 
 ```
 http://localhost:5173
@@ -163,30 +172,25 @@ http://localhost:5173
 
 ---
 
-# 🖥️ CLI Ranking
-
-Rank candidates without the frontend
+## 🖥️ Running the CLI Pipeline
 
 ```bash
-python rank.py \
---candidates candidates.jsonl \
---out submission.csv \
---no-llm
+python rank.py --candidates candidates.jsonl --out submission.csv --no-llm
 ```
 
 ---
 
-# 🤖 Claude LLM Support
+## 🤖 Claude AI Support
 
-Claude re-ranking is optional.
+Claude AI re-ranking is optional.
 
-To enable it, configure your Anthropic API Key:
+Configure your Anthropic API key:
 
 ```bash
 ANTHROPIC_API_KEY=YOUR_API_KEY
 ```
 
-Disable LLM
+Run without Claude:
 
 ```bash
 python rank.py --no-llm
@@ -194,36 +198,54 @@ python rank.py --no-llm
 
 ---
 
-# 📊 Performance
+## 📊 Performance
 
-- Dataset Size: **100,000 Candidates**
-- Embedding Model: **all-MiniLM-L6-v2**
-- Cached Embeddings Supported
-- CPU-only Execution
-- Repeated ranking completes in approximately **7 seconds** (with cached embeddings)
+| Metric | Value |
+|---------|-------|
+| Dataset Size | 100,000 Candidates |
+| Embedding Model | all-MiniLM-L6-v2 |
+| Ranking Time (Cached) | ~7 Seconds |
+| Backend | FastAPI |
+| Frontend | React |
+| LLM | Claude AI (Optional) |
 
 ---
 
-# 📁 Dataset
+## 📁 Dataset
 
-The original **100k candidate dataset** is not included because it exceeds GitHub's file size limit.
+The original **100,000 candidate dataset** is not included in this repository because it exceeds GitHub's file size limit.
 
-For demonstration purposes, use:
+For demonstration purposes, the project includes:
 
-```
+```text
 sample_candidates.json
 ```
 
 ---
 
-# 🚀 Future Improvements
+## 🚀 Roadmap
 
 - Resume PDF Upload
-- Explainable AI candidate reasoning
+- Explainable AI reasoning
 - Multi-job ranking
-- Recruiter dashboard
-- Candidate comparison view
+- Candidate comparison dashboard
+- Recruiter analytics
 - Authentication & database integration
 
 ---
 
+## 👨‍💻 Author
+
+**Udhey Goyal**
+
+- GitHub: https://github.com/Udhey-Goyal
+
+---
+
+## 📄 License
+
+This project was developed for the **Redrob AI Hiring Challenge** and is shared for educational and portfolio purposes.
+
+---
+
+⭐ If you found this project interesting, consider giving it a star!
